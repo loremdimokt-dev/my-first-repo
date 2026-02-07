@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拼音小恐龙 - 幼儿园拼读练习</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Microsoft YaHei", Arial, sans-serif;
+  background: linear-gradient(135deg, #ffeaa7 0%, #74b9ff 100%);
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+  background: white;
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.header h1 {
+  color: #6c5ce7;
+  font-size: 36px;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.reset-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #ff7675;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(255,118,117,0.3);
+}
+
+.reset-btn:hover {
+  background: #d63031;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255,118,117,0.4);
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.stat-item {
+  background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(108,92,231,0.3);
+}
+
+.progress-bar {
+  background: #dfe6e9;
+  height: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #55efc4 0%, #00b894 100%);
+  height: 100%;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.question-area {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.pinyin-display {
+  background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+  color: white;
+  font-size: 48px;
+  font-weight: bold;
+  padding: 30px;
+  border-radius: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 20px rgba(253,121,168,0.4);
+  letter-spacing: 5px;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.option-btn {
+  background: white;
+  border: 4px solid #74b9ff;
+  border-radius: 20px;
+  padding: 25px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2d3436;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(116,185,255,0.3);
+}
+
+.option-btn:hover {
+  background: #74b9ff;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(116,185,255,0.5);
+}
+
+.option-btn:active {
+  transform: translateY(0);
+}
+
+.option-btn.correct {
+  background: #00b894;
+  border-color: #00b894;
+  color: white;
+  animation: correctAnim 0.5s ease;
+}
+
+.option-btn.wrong {
+  background: #ff7675;
+  border-color: #ff7675;
+  color: white;
+  animation: wrongAnim 0.5s ease;
+}
+
+@keyframes correctAnim {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes wrongAnim {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+.feedback {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  min-height: 40px;
+  margin-bottom: 20px;
+}
+
+.feedback.correct {
+  color: #00b894;
+}
+
+.feedback.wrong {
+  color: #ff7675;
+}
+
+.next-btn {
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 20px 50px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 6px 20px rgba(108,92,231,0.4);
+  transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(108,92,231,0.5);
+}
+
+.next-btn:active {
+  transform: translateY(0);
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.nav-btn {
+  background: white;
+  border: 3px solid #6c5ce7;
+  color: #6c5ce7;
+  border-radius: 15px;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: #6c5ce7;
+  color: white;
+}
+
+.card-unlock {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  border-radius: 25px;
+  padding: 30px;
+  text-align: center;
+  margin: 25px 0;
+  box-shadow: 0 8px 30px rgba(253,203,110,0.5);
+}
+
+.card-unlock h2 {
+  color: #d63031;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.card-display {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  display: inline-block;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.card-image {
+  width: 200px;
+  height: 200px;
+  background: #dfe6e9;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2d3436;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.gallery-card {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.gallery-card.locked {
+  opacity: 0.4;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 120px;
+  background: #dfe6e9;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  overflow: hidden;
+}
+
+.gallery-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2d3436;
+}
+
+.wrong-book {
+  background: #fff5f5;
+  border-radius: 20px;
+  padding: 25px;
+  margin-top: 25px;
+}
+
+.wrong-book h3 {
+  color: #d63031;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.wrong-item {
+  background: white;
+  border-left: 4px solid #ff7675;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.completion-screen {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.completion-screen h2 {
+  color: #00b894;
+  font-size: 48px;
+  margin-bottom: 30px;
+}
+
+.completion-stars {
+  font-size: 80px;
+  margin-bottom: 30px;
+}
+
+/* 确认对话框样式 */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 25px;
+  padding: 40px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: modalPop 0.3s ease;
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-box h3 {
+  color: #d63031;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.modal-box p {
+  color: #636e72;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.modal-btn {
+  padding: 15px 40px;
+  border: none;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-btn.yes {
+  background: #d63031;
+  color: white;
+}
+
+.modal-btn.yes:hover {
+  background: #ff7675;
+  transform: translateY(-2px);
+}
+
+.modal-btn.no {
+  background: #dfe6e9;
+  color: #2d3436;
+}
+
+.modal-btn.no:hover {
+  background: #b2bec3;
+  transform: translateY(-2px);
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- 游戏屏幕 -->
+  <div id="gameScreen" class="screen active">
+    <div class="header">
+      <h1>🦕 拼音小恐龙 🦖</h1>
+      <button class="reset-btn" onclick="showResetConfirm()">🔄 重置</button>
+    </div>
+    
+    <div class="stats">
+      <div class="stat-item">⭐ 星星: <span id="stars">0</span></div>
+      <div class="stat-item">🔥 连对: <span id="streak">0</span></div>
+      <div class="stat-item">🦴 化石: <span id="fragments">0</span>/6</div>
+      <div class="stat-item">📚 今日: <span id="dailyCount">0</span>/24</div>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 0%;">
+        <span id="progressText">0/6</span>
+      </div>
+    </div>
+    
+    <div class="question-area">
+      <div class="pinyin-display" id="pinyinDisplay">lao+hu</div>
+      
+      <div class="options" id="optionsContainer">
+        <button class="option-btn">老虎</button>
+        <button class="option-btn">老鼠</button>
+        <button class="option-btn">兔子</button>
+        <button class="option-btn">狮子</button>
+      </div>
+      
+      <div class="feedback" id="feedback"></div>
+      
+      <button class="next-btn hidden" id="nextBtn">下一题 →</button>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="showGallery()">📖 图鉴</button>
+      <button class="nav-btn" onclick="showWrongBook()">❌ 错题本</button>
+    </div>
+  </div>
+  
+  <!-- 卡片解锁屏幕 -->
+  <div id="unlockScreen" class="screen">
+    <div class="card-unlock">
+      <h2>🎉 恭喜解锁新卡片！</h2>
+      <div class="card-display">
+        <div class="card-image" id="unlockImage">🦕</div>
+        <div class="card-name" id="unlockName">步氏巨猿</div>
+      </div>
+      <button class="next-btn" style="margin-top: 25px;" onclick="continueGame()">继续探险 →</button>
+    </div>
+  </div>
+  
+  <!-- 完成屏幕 -->
+  <div id="completionScreen" class="screen">
+    <div class="completion-screen">
+      <h2>🎊 今日任务完成！</h2>
+      <div class="completion-stars">⭐⭐⭐</div>
+      <div class="stats">
+        <div class="stat-item">⭐ 获得星星: <span id="finalStars">0</span></div>
+        <div class="stat-item">🦴 获得化石: <span id="finalFragments">0</span></div>
+      </div>
+      <button class="next-btn" style="margin-top: 30px;" onclick="resetToHome()">返回首页</button>
+    </div>
+  </div>
+  
+  <!-- 图鉴屏幕 -->
+  <div id="galleryScreen" class="screen">
+    <div class="header">
+      <h1>📖 远古生物图鉴</h1>
+    </div>
+    <div class="gallery" id="galleryContainer"></div>
+    <button class="next-btn" style="margin-top: 30px;" onclick="backToGame()">返回游戏</button>
+  </div>
+  
+  <!-- 错题本屏幕 -->
+  <div id="wrongBookScreen" class="screen">
+    <div class="header">
+      <h1>❌ 错题本</h1>
+    </div>
+    <div class="wrong-book">
+      <h3>需要多练习的题目：</h3>
+      <div id="wrongList"></div>
+    </div>
+    <button class="next-btn" style="margin-top: 30px;" onclick="backToGame()">返回游戏</button>
+  </div>
+</div>
+
+<!-- 重置确认对话框 -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal-box">
+    <h3>⚠️ 确定重来吗？</h3>
+    <p>所有进度（星星、化石、卡片）都会清空哦！</p>
+    <div class="modal-buttons">
+      <button class="modal-btn no" onclick="hideResetConfirm()">不要</button>
+      <button class="modal-btn yes" onclick="confirmReset()">确定</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// 题库 - 全新内容，每类16题
+const questionBank = [
+  // 生活用品 (16题)
+  { pinyin: 'kuai+zi', answer: '筷子', options: ['筷子', '勺子', '叉子', '碗'] },
+  { pinyin: 'shui+ping', answer: '水瓶', options: ['水瓶', '茶杯', '水壶', '保温杯'] },
+  { pinyin: 'zhen+tou', answer: '枕头', options: ['枕头', '被子', '床单', '毯子'] },
+  { pinyin: 'shou+biao', answer: '手表', options: ['手表', '闹钟', '钟表', '手机'] },
+  { pinyin: 'yu+san', answer: '雨伞', options: ['雨伞', '雨衣', '雨鞋', '帽子'] },
+  { pinyin: 'deng+long', answer: '灯笼', options: ['灯笼', '蜡烛', '台灯', '电灯'] },
+  { pinyin: 'shua+zi', answer: '刷子', options: ['刷子', '抹布', '扫把', '拖把'] },
+  { pinyin: 'jing+zi', answer: '镜子', options: ['镜子', '玻璃', '窗户', '相框'] },
+  { pinyin: 'yao+shi', answer: '钥匙', options: ['钥匙', '锁头', '门铃', '把手'] },
+  { pinyin: 'bei+bao', answer: '背包', options: ['背包', '手提包', '钱包', '书包'] },
+  { pinyin: 'mao+jin', answer: '毛巾', options: ['毛巾', '浴巾', '手帕', '围巾'] },
+  { pinyin: 'fei+zao', answer: '肥皂', options: ['肥皂', '洗发水', '沐浴露', '牙膏'] },
+  { pinyin: 'shu+zi', answer: '梳子', options: ['梳子', '发夹', '皮筋', '镜子'] },
+  { pinyin: 'wa+wa', answer: '娃娃', options: ['娃娃', '玩偶', '毛绒熊', '布娃娃'] },
+  { pinyin: 'hua+ping', answer: '花瓶', options: ['花瓶', '水杯', '茶壶', '盘子'] },
+  { pinyin: 'shou+tao', answer: '手套', options: ['手套', '袜子', '围巾', '帽子'] },
+  
+  // 动物 (16题)
+  { pinyin: 'xiong+mao', answer: '熊猫', options: ['熊猫', '黑熊', '北极熊', '棕熊'] },
+  { pinyin: 'song+shu', answer: '松鼠', options: ['松鼠', '仓鼠', '兔子', '老鼠'] },
+  { pinyin: 'hai+tun', answer: '海豚', options: ['海豚', '鲸鱼', '海豹', '海狮'] },
+  { pinyin: 'hou+zi', answer: '猴子', options: ['猴子', '猩猩', '狒狒', '长臂猿'] },
+  { pinyin: 'chang+jing+lu', answer: '长颈鹿', options: ['长颈鹿', '斑马', '鹿', '羚羊'] },
+  { pinyin: 'qi+e', answer: '企鹅', options: ['企鹅', '海鸥', '鸭子', '天鹅'] },
+  { pinyin: 'kao+la', answer: '考拉', options: ['考拉', '树懒', '浣熊', '熊猫'] },
+  { pinyin: 'lao+shu', answer: '老鼠', options: ['老鼠', '松鼠', '田鼠', '仓鼠'] },
+  { pinyin: 'ban+ma', answer: '斑马', options: ['斑马', '马', '驴', '骡子'] },
+  { pinyin: 'zhi+zhu', answer: '蜘蛛', options: ['蜘蛛', '蚂蚁', '蜜蜂', '蝴蝶'] },
+  { pinyin: 'qing+wa', answer: '青蛙', options: ['青蛙', '蟾蜍', '蝌蚪', '乌龟'] },
+  { pinyin: 'shi+zi', answer: '狮子', options: ['狮子', '老虎', '豹子', '猎豹'] },
+  { pinyin: 'gong+ji', answer: '公鸡', options: ['公鸡', '母鸡', '小鸡', '鸭子'] },
+  { pinyin: 'xiao+yang', answer: '小羊', options: ['小羊', '山羊', '绵羊', '小牛'] },
+  { pinyin: 'kong+que', answer: '孔雀', options: ['孔雀', '鹦鹉', '天鹅', '鸽子'] },
+  { pinyin: 'mi+feng', answer: '蜜蜂', options: ['蜜蜂', '蝴蝶', '蜻蜓', '马蜂'] },
+  
+  // 植物 (16题)
+  { pinyin: 'tao+hua', answer: '桃花', options: ['桃花', '梅花', '樱花', '杏花'] },
+  { pinyin: 'zhu+zi', answer: '竹子', options: ['竹子', '芦苇', '甘蔗', '木头'] },
+  { pinyin: 'he+hua', answer: '荷花', options: ['荷花', '莲花', '睡莲', '水仙'] },
+  { pinyin: 'liu+shu', answer: '柳树', options: ['柳树', '杨树', '槐树', '榆树'] },
+  { pinyin: 'song+shu', answer: '松树', options: ['松树', '柏树', '杉树', '桦树'] },
+  { pinyin: 'lan+hua', answer: '兰花', options: ['兰花', '菊花', '牡丹', '茉莉'] },
+  { pinyin: 'pu+gong+ying', answer: '蒲公英', options: ['蒲公英', '向日葵', '雏菊', '野花'] },
+  { pinyin: 'cai+hua', answer: '菜花', options: ['菜花', '油菜', '花菜', '西蓝花'] },
+  { pinyin: 'xi+gua', answer: '西瓜', options: ['西瓜', '甜瓜', '南瓜', '冬瓜'] },
+  { pinyin: 'cao+mei', answer: '草莓', options: ['草莓', '樱桃', '蓝莓', '树莓'] },
+  { pinyin: 'tao+zi', answer: '桃子', options: ['桃子', '李子', '杏子', '梅子'] },
+  { pinyin: 'li+zi', answer: '梨子', options: ['梨子', '苹果', '橘子', '柿子'] },
+  { pinyin: 'bo+luo', answer: '菠萝', options: ['菠萝', '榴莲', '芒果', '火龙果'] },
+  { pinyin: 'bai+cai', answer: '白菜', options: ['白菜', '青菜', '油菜', '生菜'] },
+  { pinyin: 'hu+luo+bo', answer: '胡萝卜', options: ['胡萝卜', '白萝卜', '红薯', '土豆'] },
+  { pinyin: 'fan+qie', answer: '番茄', options: ['番茄', '西红柿', '辣椒', '茄子'] },
+  
+  // 交通工具 (16题)
+  { pinyin: 'chu+zu+che', answer: '出租车', options: ['出租车', '公交车', '小汽车', '面包车'] },
+  { pinyin: 'jing+che', answer: '警车', options: ['警车', '救护车', '消防车', '出租车'] },
+  { pinyin: 'huo+jian', answer: '火箭', options: ['火箭', '飞机', '卫星', '飞船'] },
+  { pinyin: 'di+tie', answer: '地铁', options: ['地铁', '火车', '高铁', '轻轨'] },
+  { pinyin: 'gong+jiao+che', answer: '公交车', options: ['公交车', '大巴车', '校车', '旅游车'] },
+  { pinyin: 'xiao+chuan', answer: '小船', options: ['小船', '木船', '帆船', '渔船'] },
+  { pinyin: 'ka+che', answer: '卡车', options: ['卡车', '货车', '吊车', '拖车'] },
+  { pinyin: 'mo+tuo+che', answer: '摩托车', options: ['摩托车', '电动车', '自行车', '三轮车'] },
+  { pinyin: 'lun+chuan', answer: '轮船', options: ['轮船', '游艇', '帆船', '小船'] },
+  { pinyin: 'zhi+sheng+ji', answer: '直升机', options: ['直升机', '飞机', '战斗机', '客机'] },
+  { pinyin: 'la+che', answer: '拉车', options: ['拉车', '推车', '马车', '板车'] },
+  { pinyin: 'dian+dong+che', answer: '电动车', options: ['电动车', '摩托车', '自行车', '三轮车'] },
+  { pinyin: 'xiao+jiao+che', answer: '校车', options: ['校车', '公交车', '大巴车', '面包车'] },
+  { pinyin: 'diao+che', answer: '吊车', options: ['吊车', '卡车', '挖掘机', '推土机'] },
+  { pinyin: 'shan+che', answer: '山车', options: ['山车', '滑板', '滑梯', '秋千'] },
+  { pinyin: 'you+ting', answer: '游艇', options: ['游艇', '帆船', '快艇', '轮船'] },
+  
+  // 日常短句 (16题)
+  { pinyin: 'zao+shang+hao', answer: '早上好', options: ['早上好', '晚上好', '中午好', '下午好'] },
+  { pinyin: 'wan+shang+hao', answer: '晚上好', options: ['晚上好', '早上好', '中午好', '你好'] },
+  { pinyin: 'dui+bu+qi', answer: '对不起', options: ['对不起', '没关系', '不客气', '谢谢'] },
+  { pinyin: 'mei+guan+xi', answer: '没关系', options: ['没关系', '不客气', '对不起', '没事'] },
+  { pinyin: 'bu+ke+qi', answer: '不客气', options: ['不客气', '没关系', '谢谢', '对不起'] },
+  { pinyin: 'qing+jin', answer: '请进', options: ['请进', '请坐', '请走', '请出去'] },
+  { pinyin: 'he+shui', answer: '喝水', options: ['喝水', '吃饭', '喝茶', '喝奶'] },
+  { pinyin: 'qi+chuang', answer: '起床', options: ['起床', '睡觉', '洗脸', '穿衣'] },
+  { pinyin: 'xi+lian', answer: '洗脸', options: ['洗脸', '洗手', '刷牙', '洗澡'] },
+  { pinyin: 'xi+shou', answer: '洗手', options: ['洗手', '洗脸', '洗脚', '洗澡'] },
+  { pinyin: 'chuan+yi+fu', answer: '穿衣服', options: ['穿衣服', '脱衣服', '洗衣服', '叠衣服'] },
+  { pinyin: 'kan+dian+shi', answer: '看电视', options: ['看电视', '看书', '看报', '看电影'] },
+  { pinyin: 'zuo+zuo+ye', answer: '做作业', options: ['做作业', '写作业', '看书', '上课'] },
+  { pinyin: 'chi+zao+fan', answer: '吃早饭', options: ['吃早饭', '吃午饭', '吃晚饭', '吃饭'] },
+  { pinyin: 'wo+ai+ma+ma', answer: '我爱妈妈', options: ['我爱妈妈', '我爱爸爸', '我爱你', '我想你'] },
+  { pinyin: 'ming+tian+jian', answer: '明天见', options: ['明天见', '再见', '回见', '一会见'] }
+];
+
+// 远古生物卡片
+const dinoCards = [
+  { name: '霸王龙', emoji: '🐟', image: 'assets/g13_霸王龙.jpg' },
+  { name: '三角龙', emoji: '🐟', image: 'assets/三角龙.jpg' },
+  { name: '阿根廷龙', emoji: '🐟', image: 'assets/阿根廷龙.jpg' },
+  { name: '菊石', emoji: '🐟', image: 'assets/菊石.jpg' },
+  { name: '三叶虫', emoji: '🐟', image: 'assets/三叶虫.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/1aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/2aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/3aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/4aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/5aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/6aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/7aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/8aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/9aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/10aoteman.jpg' },
+  { name: '奥特曼', emoji: '🐟', image: 'assets/11aoteman.jpg' },
+  { name: '远古', emoji: '🐟', image: 'assets/1pintu.jpg' },
+  { name: '远古', emoji: '🐟', image: 'assets/2pintu.jpg' }
+];
+
+// 音效系统 - 使用 Web Audio API 生成简短音效
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
+
+// 生成答对音效 (叮/bling - 0.3秒)
+function playCorrectSound() {
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.value = 800;
+  oscillator.type = 'sine';
+  
+  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+  
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.3);
+  
+  // 添加第二个音符制造"叮"的感觉
+  setTimeout(() => {
+    const osc2 = audioContext.createOscillator();
+    const gain2 = audioContext.createGain();
+    
+    osc2.connect(gain2);
+    gain2.connect(audioContext.destination);
+    
+    osc2.frequency.value = 1000;
+    osc2.type = 'sine';
+    
+    gain2.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    
+    osc2.start(audioContext.currentTime);
+    osc2.stop(audioContext.currentTime + 0.2);
+  }, 50);
+}
+
+// 生成答错音效 (轻柔咚 - 0.4秒)
+function playWrongSound() {
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.value = 200;
+  oscillator.type = 'sine';
+  
+  gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+  
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.4);
+}
+
+// 生成解锁音效 (胜利号角 - 激昂热烈 - 约1秒)
+function playUnlockSound() {
+  // 号角式上升音阶：C4 -> E4 -> G4 -> C5 -> E5
+  const victoryNotes = [
+    { freq: 261.63, duration: 0.15, delay: 0 },      // C4
+    { freq: 329.63, duration: 0.15, delay: 0.12 },   // E4
+    { freq: 392.00, duration: 0.15, delay: 0.24 },   // G4
+    { freq: 523.25, duration: 0.25, delay: 0.36 },   // C5 (更长)
+    { freq: 659.25, duration: 0.35, delay: 0.56 }    // E5 (最长最响亮)
+  ];
+  
+  victoryNotes.forEach(note => {
+    setTimeout(() => {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = note.freq;
+      oscillator.type = 'square'; // 使用方波制造号角感
+      
+      // 最后一个音符更响亮
+      const volume = note.delay > 0.5 ? 0.4 : 0.3;
+      gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + note.duration);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + note.duration);
+    }, note.delay * 1000);
+  });
+  
+  // 添加底音增强号角效果
+  setTimeout(() => {
+    const bass = audioContext.createOscillator();
+    const bassGain = audioContext.createGain();
+    
+    bass.connect(bassGain);
+    bassGain.connect(audioContext.destination);
+    
+    bass.frequency.value = 130.81; // C3
+    bass.type = 'sawtooth';
+    
+    bassGain.gain.setValueAtTime(0.15, audioContext.currentTime);
+    bassGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
+    
+    bass.start(audioContext.currentTime);
+    bass.stop(audioContext.currentTime + 0.8);
+  }, 360);
+}
+
+// 游戏状态
+let gameState = {
+  stars: 0,
+  streak: 0,
+  fragments: 0,
+  dailyCount: 0,
+  currentRound: 0,
+  currentQuestion: 0,
+  questions: [],
+  unlockedCards: [],
+  wrongQuestions: [],
+  answered: false,
+  usedQuestionsInRound: [] // 新增：记录本轮已使用的题目
+};
+
+// 初始化
+function init() {
+  loadProgress();
+  checkDailyReset();
+  updateStats();
+  startNewRound();
+  renderGallery();
+}
+
+// 加载进度
+function loadProgress() {
+  const saved = localStorage.getItem('pinyinGameProgress');
+  if (saved) {
+    const data = JSON.parse(saved);
+    gameState.stars = data.stars || 0;
+    gameState.fragments = data.fragments || 0;
+    gameState.dailyCount = data.dailyCount || 0;
+    gameState.unlockedCards = data.unlockedCards || [];
+    gameState.wrongQuestions = data.wrongQuestions || [];
+    gameState.lastPlayDate = data.lastPlayDate || '';
+  }
+}
+
+// 保存进度
+function saveProgress() {
+  const data = {
+    stars: gameState.stars,
+    fragments: gameState.fragments,
+    dailyCount: gameState.dailyCount,
+    unlockedCards: gameState.unlockedCards,
+    wrongQuestions: gameState.wrongQuestions,
+    lastPlayDate: new Date().toDateString()
+  };
+  localStorage.setItem('pinyinGameProgress', JSON.stringify(data));
+}
+
+// 检查日期重置
+function checkDailyReset() {
+  const today = new Date().toDateString();
+  if (gameState.lastPlayDate !== today) {
+    gameState.dailyCount = 0;
+    gameState.streak = 0;
+  }
+}
+
+// 开始新一轮
+function startNewRound() {
+  if (gameState.dailyCount >= 24) {
+    showCompletion();
+    return;
+  }
+  
+  gameState.currentQuestion = 0;
+  gameState.usedQuestionsInRound = []; // 重置本轮已使用题目
+  gameState.questions = getRandomQuestions(6);
+  showQuestion();
+}
+
+// 获取随机题目（确保本轮不重复）
+function getRandomQuestions(count) {
+  const available = questionBank.filter(q => 
+    !gameState.usedQuestionsInRound.includes(q.pinyin)
+  );
+  
+  // 如果可用题目不足，重置本轮记录
+  if (available.length < count) {
+    gameState.usedQuestionsInRound = [];
+    return getRandomQuestions(count);
+  }
+  
+  const shuffled = [...available].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, count);
+  
+  // 记录本轮已使用的题目
+  selected.forEach(q => {
+    gameState.usedQuestionsInRound.push(q.pinyin);
+  });
+  
+  return selected;
+}
+
+// 显示题目
+function showQuestion() {
+  gameState.answered = false;
+  const question = gameState.questions[gameState.currentQuestion];
+  
+  document.getElementById('pinyinDisplay').textContent = question.pinyin;
+  
+  const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  
+  shuffledOptions.forEach(option => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = option;
+    btn.onclick = () => checkAnswer(option, question.answer);
+    container.appendChild(btn);
+  });
+  
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('nextBtn').classList.add('hidden');
+  
+  updateProgress();
+}
+
+// 检查答案
+function checkAnswer(selected, correct) {
+  if (gameState.answered) return;
+  gameState.answered = true;
+  
+  const buttons = document.querySelectorAll('.option-btn');
+  const feedback = document.getElementById('feedback');
+  
+  buttons.forEach(btn => {
+    btn.style.pointerEvents = 'none';
+    if (btn.textContent === correct) {
+      btn.classList.add('correct');
+    } else if (btn.textContent === selected) {
+      btn.classList.add('wrong');
+    }
+  });
+  
+  if (selected === correct) {
+    playCorrectSound(); // 播放答对音效
+    gameState.stars++;
+    gameState.streak++;
+    gameState.fragments++;
+    feedback.textContent = '🎉 太棒了！答对了！';
+    feedback.className = 'feedback correct';
+    
+    if (gameState.fragments >= 6) {
+      setTimeout(() => unlockCard(), 1000);
+      return;
+    }
+  } else {
+    playWrongSound(); // 播放答错音效
+    gameState.streak = 0;
+    feedback.textContent = '💪 再想想，答案是：' + correct;
+    feedback.className = 'feedback wrong';
+    
+    const question = gameState.questions[gameState.currentQuestion];
+    addToWrongBook(question);
+  }
+  
+  updateStats();
+  saveProgress();
+  document.getElementById('nextBtn').classList.remove('hidden');
+}
+
+// 添加到错题本
+function addToWrongBook(question) {
+  const exists = gameState.wrongQuestions.find(q => q.pinyin === question.pinyin);
+  if (!exists) {
+    gameState.wrongQuestions.push({
+      pinyin: question.pinyin,
+      answer: question.answer,
+      count: 1
+    });
+  } else {
+    exists.count++;
+  }
+}
+
+// 下一题
+function nextQuestion() {
+  gameState.currentQuestion++;
+  gameState.dailyCount++;
+  
+  if (gameState.currentQuestion >= gameState.questions.length) {
+    if (gameState.dailyCount >= 24) {
+      showCompletion();
+    } else {
+      startNewRound();
+    }
+  } else {
+    showQuestion();
+  }
+  
+  saveProgress();
+}
+
+// 解锁卡片
+function unlockCard() {
+  playUnlockSound(); // 播放胜利号角音效
+  
+  const availableCards = dinoCards.filter((_, index) => 
+    !gameState.unlockedCards.includes(index)
+  );
+  
+  if (availableCards.length === 0) {
+    nextQuestion();
+    return;
+  }
+  
+  const randomCard = availableCards[Math.floor(Math.random() * availableCards.length)];
+  const cardIndex = dinoCards.indexOf(randomCard);
+  
+  gameState.unlockedCards.push(cardIndex);
+  gameState.fragments = 0;
+  
+  document.getElementById('unlockImage').innerHTML = 
+    `<img src="${randomCard.image}" onerror="this.parentElement.innerHTML='${randomCard.emoji}'" alt="${randomCard.name}">`;
+  document.getElementById('unlockName').textContent = randomCard.name;
+  
+  switchScreen('unlockScreen');
+  updateStats();
+  saveProgress();
+  renderGallery();
+}
+
+// 继续游戏
+function continueGame() {
+  switchScreen('gameScreen');
+  nextQuestion();
+}
+
+// 显示完成界面
+function showCompletion() {
+  document.getElementById('finalStars').textContent = gameState.stars;
+  document.getElementById('finalFragments').textContent = gameState.unlockedCards.length;
+  switchScreen('completionScreen');
+}
+
+// 返回首页（重置今日进度但保留总进度）
+function resetToHome() {
+  gameState.dailyCount = 0;
+  gameState.streak = 0;
+  gameState.currentQuestion = 0;
+  gameState.currentRound = 0;
+  gameState.usedQuestionsInRound = [];
+  
+  saveProgress();
+  updateStats();
+  
+  switchScreen('gameScreen');
+  startNewRound();
+}
+
+// 显示重置确认对话框
+function showResetConfirm() {
+  document.getElementById('resetModal').classList.add('active');
+}
+
+// 隐藏重置确认对话框
+function hideResetConfirm() {
+  document.getElementById('resetModal').classList.remove('active');
+}
+
+// 确认重置 - 清空所有数据
+function confirmReset() {
+  // 清空 localStorage
+  localStorage.removeItem('pinyinGameProgress');
+  
+  // 重置游戏状态
+  gameState = {
+    stars: 0,
+    streak: 0,
+    fragments: 0,
+    dailyCount: 0,
+    currentRound: 0,
+    currentQuestion: 0,
+    questions: [],
+    unlockedCards: [],
+    wrongQuestions: [],
+    answered: false,
+    usedQuestionsInRound: []
+  };
+  
+  // 隐藏对话框
+  hideResetConfirm();
+  
+  // 更新显示
+  updateStats();
+  renderGallery();
+  
+  // 返回游戏屏幕并开始新游戏
+  switchScreen('gameScreen');
+  startNewRound();
+}
+
+// 显示图鉴
+function showGallery() {
+  renderGallery();
+  switchScreen('galleryScreen');
+}
+
+// 渲染图鉴
+function renderGallery() {
+  const container = document.getElementById('galleryContainer');
+  container.innerHTML = '';
+  
+  dinoCards.forEach((card, index) => {
+    const isUnlocked = gameState.unlockedCards.includes(index);
+    const div = document.createElement('div');
+    div.className = 'gallery-card' + (isUnlocked ? '' : ' locked');
+    div.innerHTML = `
+      <div class="gallery-image">
+        ${isUnlocked ? 
+          `<img src="${card.image}" onerror="this.parentElement.innerHTML='${card.emoji}'" alt="${card.name}">` : 
+          '🔒'}
+      </div>
+      <div class="gallery-name">${isUnlocked ? card.name : '???'}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// 显示错题本
+function showWrongBook() {
+  const container = document.getElementById('wrongList');
+  container.innerHTML = '';
+  
+  if (gameState.wrongQuestions.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:#636e72;padding:20px;">还没有错题，继续加油！</div>';
+  } else {
+    gameState.wrongQuestions.forEach(q => {
+      const div = document.createElement('div');
+      div.className = 'wrong-item';
+      div.innerHTML = `
+        <div style="font-size:20px;font-weight:bold;margin-bottom:5px;">${q.pinyin}</div>
+        <div style="color:#636e72;">正确答案：${q.answer} (错误${q.count}次)</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+  
+  switchScreen('wrongBookScreen');
+}
+
+// 返回游戏
+function backToGame() {
+  switchScreen('gameScreen');
+}
+
+// 切换屏幕
+function switchScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+}
+
+// 更新统计
+function updateStats() {
+  document.getElementById('stars').textContent = gameState.stars;
+  document.getElementById('streak').textContent = gameState.streak;
+  document.getElementById('fragments').textContent = gameState.fragments;
+  document.getElementById('dailyCount').textContent = gameState.dailyCount;
+}
+
+// 更新进度条
+function updateProgress() {
+  const progress = (gameState.currentQuestion / gameState.questions.length) * 100;
+  document.getElementById('progressFill').style.width = progress + '%';
+  document.getElementById('progressText').textContent = 
+    `${gameState.currentQuestion}/${gameState.questions.length}`;
+}
+
+// 下一题按钮
+document.getElementById('nextBtn').onclick = nextQuestion;
+
+// 启动
+init();
+</script>
+</body>
+</html>
